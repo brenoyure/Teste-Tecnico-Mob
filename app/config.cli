@@ -1,0 +1,9 @@
+embed-server --server-config=standalone-full.xml
+
+### Fazendo deploy do Driver JDBC do PostgreSQL ###
+deploy /tmp/postgresql-jdbc-driver.jar
+
+### Configurando Datasource ###
+data-source add --name=EventosDS --driver-name=postgresql-jdbc-driver.jar --jndi-name=java:jboss/datasources/EventosDS --connection-url=jdbc:postgresql://${env.EVENTOS_DB_HOST}:5432/${env.EVENTOS_DB_NAME} --user-name=${env.EVENTOS_DB_USER} --password=${env.EVENTOS_DB_PASSWORD} --enabled=true
+
+stop-embedded-server

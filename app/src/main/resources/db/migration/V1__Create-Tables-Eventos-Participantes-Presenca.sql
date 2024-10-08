@@ -1,0 +1,22 @@
+CREATE TABLE Evento (
+  id BIGSERIAL PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  datafim DATE NOT NULL,
+  datainicio DATE NOT NULL
+);
+
+CREATE TABLE Participante (
+  id BIGSERIAL PRIMARY KEY,
+  nome  VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  cpf   VARCHAR(255) NOT NULL,
+  evento_id BIGINT NOT NULL
+);
+
+ALTER TABLE Participante ADD FOREIGN KEY (evento_id) REFERENCES Evento(id);
+
+CREATE TABLE Presenca (
+  id BIGSERIAL PRIMARY KEY,
+  data DATE NOT NULL,
+  participante_id BIGINT NOT NULL
+);

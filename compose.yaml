@@ -1,0 +1,35 @@
+services:
+  eventos-app:
+    image: br.com.mobsolutions.eventos-app-i
+    container_name: br.com.mobsolutions.eventos-app-c
+    build:
+        context: ./app
+        args:
+            EVENTOS_DB_HOST: ${EVENTOS_DB_HOST}
+            EVENTOS_DB_NAME: ${EVENTOS_DB_NAME}
+            EVENTOS_DB_USER: ${EVENTOS_DB_USER}
+            EVENTOS_DB_PASSWORD: ${EVENTOS_DB_PASSWORD}
+    ports:
+      - 8080:8080
+
+    networks:
+        - br.com.mobsolutions.eventos-network
+    volumes:
+      - br.com.mobsolutions.eventos-app-wildfly-config-history-vol:/opt/jboss/wildfly/standalone/configuration/standalone_xml_history/:rw
+  eventos-db:
+    image: br.com.mobsolutions.eventos-db-i
+    container_name: br.com.mobsolutions.eventos-db-c
+    build:
+        context: ./db
+    networks:
+        - br.com.mobsolutions.eventos-network
+    volumes:
+        - br.com.mobsolutions.eventos-db-vol:/var/lib/postgresql/data/
+
+volumes:
+    br.com.mobsolutions.eventos-db-vol:
+    br.com.mobsolutions.eventos-app-wildfly-config-history-vol:
+
+networks:
+  br.com.mobsolutions.eventos-network:
+    driver: bridge
