@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluirParticipante#{participante.id}">Excluir</button>
+    <div class="modal fade" id="modalExcluirParticipante#{participante.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Realmente deseja remover este Participante?</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Deseja realmente remover, do evento, o participante: <span style="font-weight: bold;">#{participante.nome}</span> ?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <h:commandButton styleClass="btn btn-danger" value="Confirmar Exclusão" action="#{participantesEventoBean.excluir(participante.id)}" />
+          </div>
+        </div>
+      </div>
+    </div>
+</ui:composition>
+
+</html>

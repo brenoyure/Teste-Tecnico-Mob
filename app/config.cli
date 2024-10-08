@@ -1,4 +1,4 @@
-embed-server --server-config=standalone-full.xml
+embed-server --server-config=standalone.xml
 
 ### Fazendo deploy do Driver JDBC do PostgreSQL ###
 deploy /tmp/postgresql-jdbc-driver.jar

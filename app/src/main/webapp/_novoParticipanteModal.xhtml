@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novoParticipanteModal">
+      Adicionar Participante
+    </button>
+
+    <h:form id="form-modal-novoParticipante">
+      <div class="modal fade" id="novoParticipanteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Cadastro Participante</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p:panelGrid layout="flex" id="panelGrid-novoParticipante" >
+                 <p:outputLabel for="@next" value="Nome: "/>
+                 <p:inputText styleClass="form-control" value="#{participantesEventoBean.novoParticipante.nome}" />
+                 
+                 <p:outputLabel for="@next" value="E-mail: "/>
+                 <p:inputText styleClass="form-control" value="#{participantesEventoBean.novoParticipante.email}" />
+                 
+                 <p:outputLabel for="@next" value="CPF: "/>
+                 <p:inputText styleClass="form-control" value="#{participantesEventoBean.novoParticipante.cpf}" />
+              </p:panelGrid>
+            </div>
+            <div class="modal-footer">
+              <p:commandButton value="Salvar" action="#{participantesEventoBean.cadastrarNovoParticipante}" update="panelGrid-novoParticipante :form-dataTable-participantes :mensagens" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </h:form>
+</ui:composition>
+    
+</html>

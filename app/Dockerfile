@@ -16,4 +16,4 @@ RUN ["/opt/jboss/wildfly/bin/jboss-cli.sh", "--file=/tmp/config.cli", "--resolve
 
 COPY ./target/*.war ./standalone/deployments/
 
-CMD ["/opt/jboss/wildfly/bin/standalone.sh", "--server-config=standalone-full.xml", "-b" ,"0.0.0.0"]
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "--server-config=standalone.xml", "-b" ,"0.0.0.0"]

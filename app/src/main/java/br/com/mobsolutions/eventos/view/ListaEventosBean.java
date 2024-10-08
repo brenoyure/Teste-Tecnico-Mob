@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.mobsolutions.eventos.domain.dto.evento.PesquisaEventoNoDataTableDto;
 import br.com.mobsolutions.eventos.domain.models.Evento;
+import br.com.mobsolutions.eventos.domain.services.EventoService;
 import br.com.mobsolutions.eventos.repositories.EventoRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
@@ -12,7 +13,6 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.transaction.Transactional;
 
 @Named @ViewScoped
 public class ListaEventosBean implements Serializable {
@@ -30,6 +30,9 @@ public class ListaEventosBean implements Serializable {
 	@Inject
 	private EventoRepository eventoRepository;
 
+    @Inject
+    private EventoService eventoService;
+
 	@PostConstruct
 	void init() {
 		eventos = eventoRepository.findAll();
@@ -43,11 +46,9 @@ public class ListaEventosBean implements Serializable {
 						dadosPesquisa.getDataFim());
 	}
 
-	@Transactional
 	public String excluirEvento(Long id) {
 	    facesContext.getExternalContext().getFlash().setKeepMessages(true);
-
-	    eventoRepository.deleteById(id);
+	    eventoService.excluirEventoESeusParticipantes(id);
 	    facesContext.addMessage(null, 
 	            new FacesMessage("Evento excluído com sucesso"));
 

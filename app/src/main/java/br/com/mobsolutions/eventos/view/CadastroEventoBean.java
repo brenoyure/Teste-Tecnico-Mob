@@ -2,8 +2,6 @@ package br.com.mobsolutions.eventos.view;
 
 import java.io.Serializable;
 
-import org.primefaces.component.menuitem.UIMenuItem;
-
 import br.com.mobsolutions.eventos.domain.dto.evento.NovoEventoDto;
 import br.com.mobsolutions.eventos.domain.models.Evento;
 import br.com.mobsolutions.eventos.domain.services.EventoService;
@@ -28,28 +26,15 @@ public class CadastroEventoBean implements Serializable {
 	@Inject
 	private NovoEventoDto novoEvento;
 
-	private UIMenuItem menuButtonParticipantes;
-
-	private boolean telaAtualParticipantes = false;
-
-	public void cadastrar() {
+	public String cadastrar() {
+	    facesContext.getExternalContext().getFlash().setKeepMessages(true);
 		Evento eventoCadastrado = 
 				eventoService.cadastrar(novoEvento);
-		menuButtonParticipantes.setDisabled(false);
-
 		facesContext.addMessage(null, 
 				new FacesMessage(FacesMessage.SEVERITY_INFO, 
 						"Evento " + eventoCadastrado.getNome() + " cadastrado com sucesso", 
-						"Seu evento de id " + eventoCadastrado.getId() + " foi cadastrado com sucesso, Agora é possível cadastrar os participantes"));
-
-	}
-
-    public void alternarParaCadastro() {
-        telaAtualParticipantes = false;
-    }
-
-	public void alternarParaParticipantes() {
-	    telaAtualParticipantes = true;
+						"Seu evento " + eventoCadastrado.getNome() + " foi cadastrado com sucesso, Agora é possível cadastrar os participantes"));
+		return "/atualizacaoEvento?eventoId=" + eventoCadastrado.getId() + "&faces-redirect=true";
 	}
 
 	/* Getters e Setters */
@@ -61,21 +46,5 @@ public class CadastroEventoBean implements Serializable {
 	public void setNovoEvento(NovoEventoDto novoEvento) {
 		this.novoEvento = novoEvento;
 	}
-
-    public boolean isTelaAtualParticipantes() {
-        return telaAtualParticipantes;
-    }
-
-    public void setTelaAtualParticipantes(boolean telaAtualParticipantes) {
-        this.telaAtualParticipantes = telaAtualParticipantes;
-    }
-
-    public UIMenuItem getMenuButtonParticipantes() {
-        return menuButtonParticipantes;
-    }
-
-    public void setMenuButtonParticipantes(UIMenuItem menuButtonParticipantes) {
-        this.menuButtonParticipantes = menuButtonParticipantes;
-    }
 
 }

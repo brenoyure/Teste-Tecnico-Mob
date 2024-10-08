@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+	<f:viewParam name="eventoId">
+		<f:viewAction
+			action="#{participantesEventoBean.carregaParticipantesPeloIdDoEvento(param.eventoId)}" />
+	</f:viewParam>
+</f:metadata>
+
+<ui:composition template="/_template.xhtml">
+	<ui:define name="titulo">Participantes do Evento</ui:define>
+	<ui:define name="conteudo" >
+
+	<h1>Detalhes Evento</h1>
+    <p:menubar hideDelay="1000">
+        <p:menuitem value="Dados Evento" outcome="/atualizacaoEvento" includeViewParams="true" >Dados Evento
+            <f:viewParam name="eventoId" value="#{participantesEventoBean.dadosParticipante.eventoId}" />
+        </p:menuitem>
+        <p:menuitem value="Participantes" icon="pi pi-users" />
+    </p:menubar>
+
+    <!-- Botão e Modal de Cadastro de Novo Participante -->
+    <ui:include src="/_novoParticipanteModal.xhtml" />
+
+    <h:form id="form-dataTable-participantes">
+	    <p:dataTable value="#{participantesEventoBean.participantes}" var="participante" emptyMessage="Este evento ainda não possui participantes" >
+
+	        <p:column headerText="Nome">
+	            <h:outputText value="#{participante.nome}" />
+	        </p:column>
+
+	        <p:column headerText="CPF">
+	            <h:outputText value="#{participante.cpf}" />
+	        </p:column>
+
+	        <p:column headerText="E-mail">
+	            <h:outputText value="#{participante.email}" />
+	        </p:column>
+
+	        <p:column headerText="Excluir">
+	            <!-- Botão e Modal de Exclusão de Participante -->
+				<ui:include src="/_excluirParticipanteModal.xhtml" />
+	        </p:column>
+	
+	    </p:dataTable>
+	</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

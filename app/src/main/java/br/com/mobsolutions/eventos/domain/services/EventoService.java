@@ -6,6 +6,7 @@ import br.com.mobsolutions.eventos.domain.dto.evento.AtualizacaoEventoDto;
 import br.com.mobsolutions.eventos.domain.dto.evento.NovoEventoDto;
 import br.com.mobsolutions.eventos.domain.models.Evento;
 import br.com.mobsolutions.eventos.repositories.EventoRepository;
+import br.com.mobsolutions.eventos.repositories.ParticipanteRepository;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -16,6 +17,9 @@ public class EventoService {
 
     @Inject
     private EventoRepository eventoRepository;
+
+    @Inject
+    private ParticipanteRepository participanteRepository;
 
     @Transactional
     public Evento cadastrar(@Valid NovoEventoDto dados) {
@@ -28,6 +32,14 @@ public class EventoService {
         Evento evento = new Evento(dadosAtualizados.getNome(), dadosAtualizados.getDataInicial(), dadosAtualizados.getDataFinal());
         evento.setId(dadosAtualizados.getId());
         return eventoRepository.update(evento);
+    }
+
+    @Transactional
+    public boolean excluirEventoESeusParticipantes(Long eventoId) {
+        if (participanteRepository.deleteAllByEventoId(eventoId)) {
+            return eventoRepository.deleteById(eventoId);
+        }
+        return false;
     }
 
     public Optional<Evento> buscarPorId(Long id) {

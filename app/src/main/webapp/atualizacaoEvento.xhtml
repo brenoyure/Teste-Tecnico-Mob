@@ -5,9 +5,6 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
-<title>Atualização de Evento</title>
-</h:head>
 
 <f:metadata>
     <f:viewParam name="eventoId">
@@ -15,35 +12,44 @@
     </f:viewParam>
 </f:metadata>
 
-<h:body>
+<ui:composition template="/_template.xhtml">
+    <ui:define name="titulo">Atualização de Evento</ui:define>
+    <ui:define name="conteudo" >
 
-    <p:growl id="mensagens" showDetail="true" skipDetailIfEqualsSummary="true" />
+	    <h:form id="form-atualizacaoEvento">
+	
+	        <h1>Detalhes Evento</h1>
 
-	<h:form id="form-cadastroNovoEvento">
+            <p:menubar hideDelay="1000">
+                <p:menuitem value="Dados Evento" />
+                <p:menuitem value="Participantes" icon="pi pi-users" outcome="/participantesEvento" includeViewParams="true" >Participantes
+                    <f:viewParam name="eventoId" value="#{atualizacaoEventoBean.evento.id}" />
+                </p:menuitem>
+            </p:menubar>
+	        
+	        <p:panelGrid layout="tabular" columns="2" >
+	        
+	            <p:outputLabel for="@next" value="Nome: " />
+	            <p:inputText value="#{atualizacaoEventoBean.evento.nome}" />
+	        
+	            <p:outputLabel for="@next" value="Data Inicial: " />
+	            <p:inputText value="#{atualizacaoEventoBean.evento.dataInicial}" type="date" >
+	                <f:convertDateTime pattern = "yyyy-MM-dd" type="localDate" />
+	            </p:inputText>
+	        
+	            <p:outputLabel for="@next" value="Data Final: " />
+	            <p:inputText value="#{atualizacaoEventoBean.evento.dataFinal}" type="date" >
+	                <f:convertDateTime pattern = "yyyy-MM-dd" type="localDate" />
+	            </p:inputText>
+	        
+	            <p:outputLabel value="Atualizar Cadastro" />
+	            <p:commandButton value="Salvar" actionListener="#{atualizacaoEventoBean.atualizar()}" update="@form :mensagens" />
+	        
+	        </p:panelGrid>
+	
+	    </h:form>    
 
-    <h1>Detalhes Evento</h1>
+    </ui:define>
+</ui:composition>
 
-    <p:panelGrid layout="tabular" columns="2" >
-
-        <p:outputLabel for="@next" value="Nome: " />
-        <p:inputText value="#{atualizacaoEventoBean.evento.nome}" />
-
-        <p:outputLabel for="@next" value="Data Inicial: " />
-        <p:inputText value="#{atualizacaoEventoBean.evento.dataInicial}" type="date" >
-            <f:convertDateTime pattern = "yyyy-MM-dd" type="localDate" />
-        </p:inputText>
-
-        <p:outputLabel for="@next" value="Data Final: " />
-        <p:inputText value="#{atualizacaoEventoBean.evento.dataFinal}" type="date" >
-            <f:convertDateTime pattern = "yyyy-MM-dd" type="localDate" />
-        </p:inputText>
-
-        <p:outputLabel value="Finalizar Cadastro" />
-        <p:commandButton value="Salvar" actionListener="#{atualizacaoEventoBean.atualizar()}" update="@form :mensagens" />
-
-    </p:panelGrid>
-
-	</h:form>
-
-</h:body>
 </html>

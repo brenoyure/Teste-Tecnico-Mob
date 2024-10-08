@@ -2,6 +2,7 @@ package br.com.mobsolutions.eventos.repositories;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 
 import br.com.mobsolutions.eventos.domain.models.Evento;
 import br.com.mobsolutions.eventos.domain.models.Evento_;
@@ -32,7 +33,7 @@ public class EventoRepository extends JpaEntityManagerRepository<Evento, Long> {
         Predicate filtros = builder.and();
 
         if (nome != null && !nome.isBlank()) {
-            filtros = builder.and(builder.like(evento.get(Evento_.nome), "%".concat(nome).concat("%")));
+            filtros = builder.and(builder.like(builder.lower(evento.get(Evento_.nome)), "%".concat(nome.toLowerCase(Locale.of("pt", "br"))).concat("%")));
         }
 
         if (dataInicio != null) {
