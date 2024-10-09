@@ -19,8 +19,7 @@
 	    <h1>Eventos</h1>
 	    <h:commandButton value="Cadastrar Novo" action="/cadastroEvento?faces-redirect=true" />
 
-	    <fieldset>
-	        <legend>Filtros</legend>
+	    <p:fieldset legend="Filtros" >
 	        <p:outputLabel for="@next" value="Nome:" />
 	        <p:inputText value="#{listaEventosBean.dadosPesquisa.nome}" />
 
@@ -35,7 +34,7 @@
             </p:inputText>
 
             <p:commandButton value="Pesquisar" actionListener="#{listaEventosBean.pesquisar}" update="dataTable-eventos" />
-	    </fieldset>
+	    </p:fieldset>
 	
 	    <p:dataTable id="dataTable-eventos" value="#{listaEventosBean.eventos}" var="evento" emptyMessage="Nenhum Evento Cadastrado" >
 	        <p:column headerText="Nome" >

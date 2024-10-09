@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import br.com.mobsolutions.eventos.domain.dto.participantes.NovoParticipanteDto;
-import br.com.mobsolutions.eventos.domain.models.Participante;
+import br.com.mobsolutions.eventos.domain.dto.participantes.ParticipanteDto;
 import br.com.mobsolutions.eventos.domain.services.ParticipanteService;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -27,7 +27,7 @@ public class ParticipantesEventoBean implements Serializable {
     @Inject
     private NovoParticipanteDto novoParticipante;    
 
-    private List<Participante> participantes;
+    private List<ParticipanteDto> participantes;
 
     public String cadastrarNovoParticipante() {
         try {
@@ -62,11 +62,11 @@ public class ParticipantesEventoBean implements Serializable {
         this.novoParticipante = novoParticipante;
     }
 
-    public List<Participante> getParticipantes() {
+    public List<ParticipanteDto> getParticipantes() {
         return participantes;
     }
 
-    public void setParticipantes(List<Participante> participantes) {
+    public void setParticipantes(List<ParticipanteDto> participantes) {
         this.participantes = participantes;
     }
 

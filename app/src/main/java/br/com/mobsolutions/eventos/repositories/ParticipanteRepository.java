@@ -4,6 +4,7 @@ import static br.com.mobsolutions.eventos.domain.models.Participante_.evento;
 
 import java.util.List;
 
+import br.com.mobsolutions.eventos.domain.dto.participantes.ParticipanteDto;
 import br.com.mobsolutions.eventos.domain.models.Evento_;
 import br.com.mobsolutions.eventos.domain.models.Participante;
 import jakarta.enterprise.context.RequestScoped;
@@ -12,7 +13,6 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
-import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.ParameterExpression;
 import jakarta.persistence.criteria.Root;
 
@@ -36,17 +36,15 @@ public class ParticipanteRepository extends JpaEntityManagerRepository<Participa
         } catch(NoResultException e) { return false; }
     }
 
-    public List<Participante> findAllByEventoId(Long eventoId) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Participante> query = builder.createQuery(Participante.class);
-        Root<Participante> participante = query.from(Participante.class);
-
-        ParameterExpression<Long> pEventoId = builder.parameter(Long.class);
-
-        return entityManager
-                .createQuery(query.where(builder.equal(participante.get(evento).get(Evento_.id), pEventoId)))
-                .setParameter(pEventoId, eventoId).getResultList();
-
+    public List<ParticipanteDto> findAllByEventoId(Long eventoId) {
+        return entityManager.createQuery(
+"""
+SELECT 
+    new br.com.mobsolutions.eventos.domain.dto.participantes.ParticipanteDto(p.id, p.nome, p.email, p.cpf, presenca.id, p.evento.id)
+FROM Participante p LEFT JOIN Presenca presenca ON presenca.participante.id=p.id WHERE p.evento.id = ?1
+""", ParticipanteDto.class)
+                .setParameter(1, eventoId)
+                .getResultList();
     }
 
     public boolean deleteAllByEventoId(Long eventoId) {

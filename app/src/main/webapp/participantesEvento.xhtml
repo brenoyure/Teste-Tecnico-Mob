@@ -47,7 +47,17 @@
 	            <!-- Botão e Modal de Exclusão de Participante -->
 				<ui:include src="/_excluirParticipanteModal.xhtml" />
 	        </p:column>
-	
+
+            <p:column headerText="Presença">
+                <!-- Botão e Modal da Presença do Participante -->
+                <h:panelGroup layout="block" rendered="#{participante.presencaId == null}" >
+                    <ui:include src="/_presencaParticipanteModal.xhtml" />
+                </h:panelGroup>
+                <h:panelGroup layout="block" rendered="#{participante.presencaId != null}" >
+                    <h:outputText styleClass="pi pi-check" /><span> Presença Confirmada</span>
+                </h:panelGroup>
+            </p:column>
+
 	    </p:dataTable>
 	</h:form>
 

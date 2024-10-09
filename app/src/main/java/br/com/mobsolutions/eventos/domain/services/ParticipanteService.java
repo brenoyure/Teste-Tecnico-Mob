@@ -3,11 +3,12 @@ package br.com.mobsolutions.eventos.domain.services;
 import java.util.List;
 
 import br.com.mobsolutions.eventos.domain.dto.participantes.NovoParticipanteDto;
+import br.com.mobsolutions.eventos.domain.dto.participantes.ParticipanteDto;
 import br.com.mobsolutions.eventos.domain.models.Evento;
 import br.com.mobsolutions.eventos.domain.models.Participante;
 import br.com.mobsolutions.eventos.repositories.EventoRepository;
 import br.com.mobsolutions.eventos.repositories.ParticipanteRepository;
-
+import br.com.mobsolutions.eventos.repositories.PresencaRepository;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -19,6 +20,9 @@ public class ParticipanteService {
 
     @Inject
     private ParticipanteRepository participanteRepository;
+
+    @Inject
+    private PresencaRepository presencaRepository;
 
     @Inject
     private EventoRepository eventoRepository;
@@ -35,12 +39,13 @@ public class ParticipanteService {
         return participanteRepository.save(new Participante(novoParticipante.getNome(), novoParticipante.getEmail(), novoParticipante.getCpf(), evento));
     }
 
-    public List<Participante> listarParticipantesDoEventoPeloId(Long eventoId) {
+    public List<ParticipanteDto> listarParticipantesDoEventoPeloId(Long eventoId) {
         return participanteRepository.findAllByEventoId(eventoId);
     }
 
     @Transactional
     public boolean excluirPorId(Long participanteId) {
+        presencaRepository.deleteByParticipanteId(participanteId);
         return participanteRepository.deleteById(participanteId);        
     }
 

@@ -9,6 +9,9 @@ services:
             EVENTOS_DB_NAME: ${EVENTOS_DB_NAME}
             EVENTOS_DB_USER: ${EVENTOS_DB_USER}
             EVENTOS_DB_PASSWORD: ${EVENTOS_DB_PASSWORD}
+    depends_on:
+      eventos-db:
+        condition: service_started
     ports:
       - 8080:8080
 

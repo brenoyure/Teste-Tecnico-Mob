@@ -20,7 +20,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <h:commandButton styleClass="btn btn-danger" value="Confirmar Exclusão" action="#{participantesEventoBean.excluir(participante.id)}" />
+            <h:commandButton styleClass="btn btn-danger" value="Confirmar Exclusão" immediate="true" action="#{participantesEventoBean.excluir(participante.id)}" />
           </div>
         </div>
       </div>
