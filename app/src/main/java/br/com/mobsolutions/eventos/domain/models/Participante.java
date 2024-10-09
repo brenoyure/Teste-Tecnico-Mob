@@ -37,6 +37,14 @@ public class Participante {
 
 	}
 
+    public Participante(Long id, String nome, String email, String cpf, Evento evento) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+        this.evento = evento;
+    }	
+
 	public Participante(String nome, String email, String cpf, Evento evento) {
 		this.nome = nome;
 		this.email = email;

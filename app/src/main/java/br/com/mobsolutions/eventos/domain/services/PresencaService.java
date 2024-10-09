@@ -1,5 +1,7 @@
 package br.com.mobsolutions.eventos.domain.services;
 
+import java.time.LocalDate;
+
 import br.com.mobsolutions.eventos.domain.dto.participantes.NovaPresencaDto;
 import br.com.mobsolutions.eventos.domain.models.Evento;
 import br.com.mobsolutions.eventos.domain.models.Participante;
@@ -57,8 +59,11 @@ public class PresencaService {
         /*
          * Valida se está sendo marcada mais de uma presença na mesma data
          */
-        if (presencaRepository.existsByDataAndParticipanteId(novaPresenca.getData(), novaPresenca.getParticipanteId())) {
-            throw new ValidationException("Participante " + participante.getNome() + " já marcou presença para a data " + novaPresenca.getData());
+        if (presencaRepository.existsByDataAndParticipanteCpf(novaPresenca.getData(), participante.getCpf())) {
+            LocalDate data = novaPresenca.getData();
+            final String exceptionMessage = 
+                    String.format("Participante %s já marcou presença em outro evento na data %d/%d/%d", participante.getNome(), data.getDayOfMonth(), data.getMonthValue(), data.getYear());
+            throw new ValidationException(exceptionMessage);
         }
 
         return presencaRepository.save(new Presenca(novaPresenca.getData(), participante));

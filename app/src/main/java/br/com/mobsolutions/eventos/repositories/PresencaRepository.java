@@ -39,16 +39,22 @@ public class PresencaRepository extends JpaEntityManagerRepository<Presenca, Lon
                 .executeUpdate() > 0;
     }
 
-
-    public boolean existsByDataAndParticipanteId(LocalDate data, Long participanteId) {
+    public boolean existsByDataAndParticipanteCpf(LocalDate data, String cpf) {
         try {
             return entityManager
-                    .createQuery("SELECT EXISTS(SELECT p FROM Presenca p WHERE p.data = ?1 AND p.participante.id = ?2)", Boolean.class)
+                    .createQuery("SELECT EXISTS(SELECT p FROM Presenca p WHERE p.data = ?1 AND p.participante.cpf = ?2)", Boolean.class)
                     .setParameter(1, data)
-                    .setParameter(2, participanteId)
+                    .setParameter(2, cpf)
                     .getSingleResult();
         } catch (NoResultException e) { return false; }
 
+    }
+
+    public boolean deleteAllByParticipanteEventoId(Long eventoId) {
+        return entityManager
+                .createQuery("DELETE FROM Presenca p WHERE p.participante.id IN ( SELECT(participante.id) FROM Participante participante WHERE participante.evento.id = ?1 )")
+                .setParameter(1, eventoId)
+                .executeUpdate() > 0;
     }
 
 }

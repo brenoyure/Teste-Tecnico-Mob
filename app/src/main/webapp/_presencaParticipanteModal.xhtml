@@ -21,15 +21,24 @@
              <p:outputLabel value="Participante: #{participante.nome}" />
              <p:outputLabel value="CPF: #{participante.cpf}"  />
 
-             <p:outputLabel value="Data" />
-             <p:inputText   type="date" value="#{cadastroPresencaBean.novaPresenca.data}" >
+             <p:outputLabel>
+                Data - Disponível entre: 
+                <h:outputText value="#{participantesEventoBean.evento.dataInicio}">
+                    <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+                </h:outputText>
+                 e 
+                <h:outputText value="#{participantesEventoBean.evento.dataFim}">
+                    <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+                </h:outputText>
+             </p:outputLabel>
+             <p:inputText type="date" value="#{participante.dataPresenca}" >
                  <f:convertDateTime pattern="yyyy-MM-dd" type="localDate" />
              </p:inputText>
 
          </p:panelGrid>
           </div>
           <div class="modal-footer">
-            <p:commandButton value="Marcar Presença" action="#{cadastroPresencaBean.marcarPresenca(participante.id, participante.eventoId)}" rendered="#{participante.presencaId != null}" update="panelGrid-novaPresenca :mensagens" />
+            <p:commandButton value="Marcar Presença" action="#{cadastroPresencaBean.marcarPresenca(participante)}" update="panelGrid-novaPresenca :mensagens" />
           </div>
         </div>
       </div>

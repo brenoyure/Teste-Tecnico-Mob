@@ -38,6 +38,13 @@ public class ListaEventosBean implements Serializable {
 		eventos = eventoRepository.findAll();
 	}
 
+	public void limparFiltros() {
+	    dadosPesquisa.setDataInicio(null);
+	    dadosPesquisa.setDataFim(null);
+	    dadosPesquisa.setNome(null);
+	    eventos = eventoRepository.findAll();
+	}
+
 	public void pesquisar() {
 		eventos = 
 				eventoRepository.findByNomeLikeAndDataInicioAndDataFim(

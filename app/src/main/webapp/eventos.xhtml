@@ -19,7 +19,7 @@
 	    <h1>Eventos</h1>
 	    <h:commandButton value="Cadastrar Novo" action="/cadastroEvento?faces-redirect=true" />
 
-	    <p:fieldset legend="Filtros" >
+	    <p:fieldset id="fieldset-filtros" legend="Filtros" >
 	        <p:outputLabel for="@next" value="Nome:" />
 	        <p:inputText value="#{listaEventosBean.dadosPesquisa.nome}" />
 
@@ -33,25 +33,36 @@
                 <f:convertDateTime pattern = "yyyy-MM-dd" type="localDate" />
             </p:inputText>
 
-            <p:commandButton value="Pesquisar" actionListener="#{listaEventosBean.pesquisar}" update="dataTable-eventos" />
+            <p:commandButton value="Pesquisar"      actionListener="#{listaEventosBean.pesquisar}"     update="dataTable-eventos" style="margin-right: 5px;" />
+            <p:commandButton value="Limpar Filtros" actionListener="#{listaEventosBean.limparFiltros}" update="fieldset-filtros dataTable-eventos"           />
 	    </p:fieldset>
 	
 	    <p:dataTable id="dataTable-eventos" value="#{listaEventosBean.eventos}" var="evento" emptyMessage="Nenhum Evento Cadastrado" >
 	        <p:column headerText="Nome" >
 	            <h:outputText value="#{evento.nome}" />
 	        </p:column>
-	
+
 	        <p:column headerText="Data Início" >
 	            <h:outputText value="#{evento.dataInicio}" >
 	               <f:convertDateTime timeZone="America/Fortaleza" pattern="dd/MM/yyyy" type="localDate" />
 	            </h:outputText>
 	        </p:column>
-	
+
 	        <p:column headerText="Data Final" >
 	            <h:outputText value="#{evento.dataFim}">
 	               <f:convertDateTime pattern="dd/MM/yyyy" type="localDate" />
 	            </h:outputText>
 	        </p:column>
+
+            <p:column headerText="Duração">
+                <h:outputText rendered="#{evento.dataInicio.until(evento.dataFim).months == 0 and evento.dataInicio.until(evento.dataFim).days == 1}" value="1 dia de duração" />
+                <h:outputText rendered="#{evento.dataInicio.until(evento.dataFim).months == 0 and evento.dataInicio.until(evento.dataFim).days == 0}" value="Evento encerra no mesmo dia" />
+                <h:outputText rendered="#{evento.dataInicio.until(evento.dataFim).months == 0 and evento.dataInicio.until(evento.dataFim).days  > 1}" value="#{evento.dataInicio.until(evento.dataFim).days} dias" />
+                <h:outputText rendered="#{evento.dataInicio.until(evento.dataFim).months == 1 and evento.dataInicio.until(evento.dataFim).days == 0}" value="#{evento.dataInicio.until(evento.dataFim).months} mês" />
+                <h:outputText rendered="#{evento.dataInicio.until(evento.dataFim).months == 1 and evento.dataInicio.until(evento.dataFim).days == 1}" value="#{evento.dataInicio.until(evento.dataFim).months} mês e #{evento.dataInicio.until(evento.dataFim).days} dia" />
+                <h:outputText rendered="#{evento.dataInicio.until(evento.dataFim).months == 1 and evento.dataInicio.until(evento.dataFim).days  > 1}" value="#{evento.dataInicio.until(evento.dataFim).months} mês e #{evento.dataInicio.until(evento.dataFim).days} dias" />
+                <h:outputText rendered="#{evento.dataInicio.until(evento.dataFim).months  > 1 and evento.dataInicio.until(evento.dataFim).days  > 1}" value="#{evento.dataInicio.until(evento.dataFim).months} meses e #{evento.dataInicio.until(evento.dataFim).days} dias" />
+            </p:column>
 
             <p:column headerText="Editar">
                 <h:link value="Editar" outcome="/atualizacaoEvento.xhtml" styleClass="btn btn-primary" includeViewParams="true">

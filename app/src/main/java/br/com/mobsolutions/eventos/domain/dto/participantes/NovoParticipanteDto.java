@@ -32,6 +32,13 @@ public class NovoParticipanteDto implements Serializable {
 
     }
 
+    public NovoParticipanteDto(String nome, String cpf, String email, Long eventoId) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.eventoId = eventoId;
+    }
+
     public String getNome() {
         return nome;
     }

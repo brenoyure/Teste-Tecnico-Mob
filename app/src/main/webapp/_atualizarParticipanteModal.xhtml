@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#atualizarParticipanteModal#{participante.id}">
+      Editar
+    </button>
+
+    <div class="modal fade" id="atualizarParticipanteModal#{participante.id}" tabindex="-1" aria-labelledby="atualizaParticipanteModalLabel#{participante.id}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="atualizaParticipanteModalLabel#{participante.id}">Participante #{participante.nome}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p:panelGrid layout="flex" id="panelGrid-atualizarParticipante" >
+               <p:outputLabel for="@next" value="Nome: "/>
+               <p:inputText styleClass="form-control" value="#{participante.nome}" />
+               
+               <p:outputLabel for="@next" value="E-mail: "/>
+               <p:inputText styleClass="form-control" value="#{participante.email}" />
+               
+               <p:outputLabel for="@next" value="CPF: "/>
+               <p:inputMask mask="999.999.999-99" styleClass="form-control" value="#{participante.cpf}" placeholder="XXX.XXX.XXX-XX" />
+            </p:panelGrid>
+          </div>
+          <div class="modal-footer">
+            <p:commandButton value="Atualizar" action="#{participantesEventoBean.atualizarParticipante(participante)}" update="panelGrid-atualizarParticipante :mensagens" />
+          </div>
+        </div>
+      </div>
+    </div>
+</ui:composition>
+    
+</html>

@@ -17,12 +17,26 @@
 	<ui:define name="titulo">Participantes do Evento</ui:define>
 	<ui:define name="conteudo" >
 
-	<h1>Detalhes Evento</h1>
+	<h1>Detalhes Evento - #{participantesEventoBean.evento.nome}</h1>
     <p:menubar hideDelay="1000">
         <p:menuitem value="Dados Evento" outcome="/atualizacaoEvento" includeViewParams="true" >Dados Evento
             <f:viewParam name="eventoId" value="#{participantesEventoBean.dadosParticipante.eventoId}" />
         </p:menuitem>
         <p:menuitem value="Participantes" icon="pi pi-users" />
+
+        <f:facet name="end">
+             <p:outputLabel>
+                Disponível entre:  
+                <h:outputText value="#{participantesEventoBean.evento.dataInicio}">
+                    <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+                </h:outputText>
+                 e 
+                <h:outputText value="#{participantesEventoBean.evento.dataFim}">
+                    <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+                </h:outputText>
+             </p:outputLabel>
+        </f:facet>
+
     </p:menubar>
 
     <!-- Botão e Modal de Cadastro de Novo Participante -->
@@ -43,10 +57,10 @@
 	            <h:outputText value="#{participante.email}" />
 	        </p:column>
 
-	        <p:column headerText="Excluir">
-	            <!-- Botão e Modal de Exclusão de Participante -->
-				<ui:include src="/_excluirParticipanteModal.xhtml" />
-	        </p:column>
+            <p:column headerText="% Participação">
+                <h:outputText value="Ainda não marcou presença em nenhum evento" title="#{participante.nome} ainda não confirmou presença em nenhum evento" rendered="#{participante.percentualParticipacao == 0}" />
+                <h:outputText value="Presente em #{participante.percentualParticipacao}% dos eventos" title="#{participante.nome} confirmou presença em #{participante.percentualParticipacao}% dos eventos" rendered="#{participante.percentualParticipacao > 0}" />
+            </p:column>
 
             <p:column headerText="Presença">
                 <!-- Botão e Modal da Presença do Participante -->
@@ -54,9 +68,22 @@
                     <ui:include src="/_presencaParticipanteModal.xhtml" />
                 </h:panelGroup>
                 <h:panelGroup layout="block" rendered="#{participante.presencaId != null}" >
-                    <h:outputText styleClass="pi pi-check" /><span> Presença Confirmada</span>
+                    <h:outputText styleClass="pi pi-check" /><span> Presença Confirmada </span>
+                    <h:outputText value="#{participante.dataPresenca}" >
+                        <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+                    </h:outputText>
                 </h:panelGroup>
             </p:column>
+
+            <p:column headerText="Editar">
+                <!-- Botão e Modal de Edição de Participante -->
+                <ui:include src="/_atualizarParticipanteModal.xhtml" />                
+            </p:column>
+
+	        <p:column headerText="Excluir">
+	            <!-- Botão e Modal de Exclusão de Participante -->
+				<ui:include src="/_excluirParticipanteModal.xhtml" />
+	        </p:column>
 
 	    </p:dataTable>
 	</h:form>

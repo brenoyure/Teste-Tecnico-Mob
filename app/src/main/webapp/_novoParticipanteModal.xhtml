@@ -28,7 +28,7 @@
                  <p:inputText styleClass="form-control" value="#{participantesEventoBean.novoParticipante.email}" />
                  
                  <p:outputLabel for="@next" value="CPF: "/>
-                 <p:inputText styleClass="form-control" value="#{participantesEventoBean.novoParticipante.cpf}" placeholder="XXX.XXX.XXX-XX" />
+                 <p:inputMask mask="999.999.999-99" styleClass="form-control" value="#{participantesEventoBean.novoParticipante.cpf}" placeholder="XXX.XXX.XXX-XX" />
               </p:panelGrid>
             </div>
             <div class="modal-footer">
